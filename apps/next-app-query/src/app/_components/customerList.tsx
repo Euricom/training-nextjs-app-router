@@ -1,11 +1,12 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import type { Customer } from '@/app/api/customers/route';
 
 export default function CustomerList({ className }: { className?: string }) {
   const { data } = useQuery<Customer[]>(
-    ['customerList'],
+    ['customers'],
     () => {
       return fetch('http://localhost:3000/api/customers').then((res) => res.json());
     },
@@ -33,7 +34,11 @@ export default function CustomerList({ className }: { className?: string }) {
             <tr key={item.id}>
               <td className="hidden lg:table-cell">{item.id}</td>
               <td className="hidden lg:table-cell">{item.firstName}</td>
-              <td>{item.lastName}</td>
+              <td>
+                <Link href={`/customers/${item.id}`} className="underline">
+                  {item.lastName}
+                </Link>
+              </td>
               <td>{item.email}</td>
               <td>{item.phone}</td>
               <td className="hidden lg:table-cell">{item.address}</td>

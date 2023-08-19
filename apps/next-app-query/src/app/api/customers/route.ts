@@ -12,7 +12,7 @@ const GetParamsSchema = z.object({
 
 export const GET = (request: Request) => {
   return withErrorHandling(async () => {
-    const { page = 0, pageSize = 50, sortBy = 'LastName' } = getSearchParams(request, GetParamsSchema);
+    const { page = 0, pageSize = 50, sortBy = 'lastName' } = getSearchParams(request, GetParamsSchema);
     console.log(`getUsers: page=${page}, pageSize=${pageSize}, sortBy=${sortBy}`);
 
     const customers = await prisma.customer.findMany({

@@ -54,7 +54,7 @@ export default function Header() {
             Features
           </NavLink>
           <NavLink
-            href="#"
+            href="about"
             className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
           >
             About
