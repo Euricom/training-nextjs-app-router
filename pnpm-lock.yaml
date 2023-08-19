@@ -173,6 +173,94 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
+  apps/next-app-rsc:
+    dependencies:
+      '@hookform/resolvers':
+        specifier: ^3.2.0
+        version: 3.2.0(react-hook-form@7.45.4)
+      '@prisma/client':
+        specifier: ^5.1.1
+        version: 5.1.1(prisma@5.1.1)
+      '@t3-oss/env-nextjs':
+        specifier: ^0.6.1
+        version: 0.6.1(typescript@5.1.6)(zod@3.22.1)
+      daisyui:
+        specifier: ^3.5.1
+        version: 3.5.1
+      next:
+        specifier: 13.4.13
+        version: 13.4.13(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.45.4
+        version: 7.45.4(react@18.2.0)
+      server-act:
+        specifier: ^0.0.6
+        version: 0.0.6(typescript@5.1.6)(zod@3.22.1)
+      superjson:
+        specifier: ^1.13.1
+        version: 1.13.1
+      tailwind-merge:
+        specifier: ^1.14.0
+        version: 1.14.0
+      zod:
+        specifier: ^3.22.1
+        version: 3.22.1
+    devDependencies:
+      '@next/bundle-analyzer':
+        specifier: ^13.4.19
+        version: 13.4.19
+      '@types/eslint':
+        specifier: ^8.44.2
+        version: 8.44.2
+      '@types/node':
+        specifier: 20.4.10
+        version: 20.4.10
+      '@types/react':
+        specifier: 18.2.20
+        version: 18.2.20
+      '@types/react-dom':
+        specifier: 18.2.7
+        version: 18.2.7
+      '@typescript-eslint/eslint-plugin':
+        specifier: 6.0.0
+        version: 6.0.0(@typescript-eslint/parser@6.0.0)(eslint@8.47.0)(typescript@5.1.6)
+      '@typescript-eslint/parser':
+        specifier: 6.0.0
+        version: 6.0.0(eslint@8.47.0)(typescript@5.1.6)
+      autoprefixer:
+        specifier: 10.4.15
+        version: 10.4.15(postcss@8.4.27)
+      eslint:
+        specifier: 8.47.0
+        version: 8.47.0
+      eslint-config-next:
+        specifier: 13.4.13
+        version: 13.4.13(eslint@8.47.0)(typescript@5.1.6)
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
+      prettier:
+        specifier: ^2.8.8
+        version: 2.8.8
+      prettier-plugin-tailwindcss:
+        specifier: ^0.2.8
+        version: 0.2.8(prettier@2.8.8)
+      prisma:
+        specifier: ^5.1.1
+        version: 5.1.1
+      tailwindcss:
+        specifier: 3.3.3
+        version: 3.3.3
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
+
   apps/next-app-t3:
     dependencies:
       '@next-auth/prisma-adapter':
@@ -1868,7 +1956,7 @@ packages:
       eslint: 8.47.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.6.0(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.28.0)(eslint@8.47.0)
-      eslint-plugin-import: 2.28.0(@typescript-eslint/parser@6.0.0)(eslint@8.47.0)
+      eslint-plugin-import: 2.28.0(@typescript-eslint/parser@5.62.0)(eslint@8.47.0)
       eslint-plugin-jsx-a11y: 6.7.1(eslint@8.47.0)
       eslint-plugin-react: 7.33.1(eslint@8.47.0)
       eslint-plugin-react-hooks: 5.0.0-canary-7118f5dd7-20230705(eslint@8.47.0)
@@ -1908,7 +1996,7 @@ packages:
       enhanced-resolve: 5.15.0
       eslint: 8.47.0
       eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.0)(eslint@8.47.0)
-      eslint-plugin-import: 2.28.0(@typescript-eslint/parser@6.0.0)(eslint@8.47.0)
+      eslint-plugin-import: 2.28.0(@typescript-eslint/parser@5.62.0)(eslint@8.47.0)
       fast-glob: 3.3.1
       get-tsconfig: 4.7.0
       is-core-module: 2.13.0
@@ -1950,7 +2038,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-module-utils@2.8.0(@typescript-eslint/parser@6.0.0)(eslint-import-resolver-node@0.3.9)(eslint@8.47.0):
+  /eslint-module-utils@2.8.0(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-node@0.3.9)(eslint@8.47.0):
     resolution: {integrity: sha512-aWajIYfsqCKRDgUfjEXNN/JlrzauMuSEy5sbd7WXbtW3EH6A6MpwEh42c7qD+MqQo9QMJ6fWLAeIJynx0g6OAw==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -1971,7 +2059,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 6.0.0(eslint@8.47.0)(typescript@5.1.6)
+      '@typescript-eslint/parser': 5.62.0(eslint@8.47.0)(typescript@5.1.6)
       debug: 3.2.7
       eslint: 8.47.0
       eslint-import-resolver-node: 0.3.9
@@ -1979,7 +2067,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-import@2.28.0(@typescript-eslint/parser@6.0.0)(eslint@8.47.0):
+  /eslint-plugin-import@2.28.0(@typescript-eslint/parser@5.62.0)(eslint@8.47.0):
     resolution: {integrity: sha512-B8s/n+ZluN7sxj9eUf7/pRFERX0r5bnFA2dCaLHy2ZeaQEAz0k+ZZkFWRFHJAqxfxQDx6KLv9LeIki7cFdwW+Q==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -1989,7 +2077,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 6.0.0(eslint@8.47.0)(typescript@5.1.6)
+      '@typescript-eslint/parser': 5.62.0(eslint@8.47.0)(typescript@5.1.6)
       array-includes: 3.1.6
       array.prototype.findlastindex: 1.2.2
       array.prototype.flat: 1.3.1
@@ -1998,7 +2086,7 @@ packages:
       doctrine: 2.1.0
       eslint: 8.47.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.8.0(@typescript-eslint/parser@6.0.0)(eslint-import-resolver-node@0.3.9)(eslint@8.47.0)
+      eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-node@0.3.9)(eslint@8.47.0)
       has: 1.0.3
       is-core-module: 2.13.0
       is-glob: 4.0.3
@@ -3410,6 +3498,16 @@ packages:
     dependencies:
       lru-cache: 6.0.0
     dev: true
+
+  /server-act@0.0.6(typescript@5.1.6)(zod@3.22.1):
+    resolution: {integrity: sha512-Uwzg/xnSO+ayB+FbGKlodFZleu4gDLDA2+hvlvXXLP13EEDaKTbyDm1eS3XGQn/r3ba8vyNtx15CqA0BDi1PHw==}
+    peerDependencies:
+      typescript: ^5.0.4
+      zod: ^3.21.4
+    dependencies:
+      typescript: 5.1.6
+      zod: 3.22.1
+    dev: false
 
   /shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}

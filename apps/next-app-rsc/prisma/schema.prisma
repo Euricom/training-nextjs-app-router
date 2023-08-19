@@ -1,0 +1,192 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Album {
+  id       Int     @id @default(autoincrement()) @map("AlbumId")
+  title    String  @map("title")
+  artistId Int     @map("artistId")
+  artist   Artist  @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  track    Track[]
+
+  @@index([id], map: "IFK_AlbumArtistId")
+}
+
+model Artist {
+  id    Int     @id @default(autoincrement()) @map("ArtistId")
+  name  String? @map("Name")
+  album Album[]
+}
+
+model Customer {
+  id           Int       @id @default(autoincrement()) @map("CustomerId")
+  firstName    String    @map("FirstName")
+  lastName     String    @map("LastName")
+  company      String?   @map("Company")
+  address      String?   @map("Address")
+  city         String?   @map("City")
+  state        String?   @map("State")
+  country      String?   @map("Country")
+  postalCode   String?   @map("PostalCode")
+  phone        String?   @map("Phone")
+  fax          String?   @map("Fax")
+  email        String    @map("Email")
+  supportRepId Int?      @map("SupportRepId")
+  employee     Employee? @relation(fields: [supportRepId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invoice      Invoice[]
+
+  @@index([supportRepId], map: "IFK_CustomerSupportRepId")
+}
+
+model Employee {
+  id             Int        @id @default(autoincrement()) @map("EmployeeId")
+  lastName       String     @map("LastName")
+  firstName      String     @map("FirstName")
+  title          String?    @map("Title")
+  reportsTo      Int?       @map("ReportsTo")
+  birthDate      DateTime?  @map("BirthDate")
+  hireDate       DateTime?  @map("HireDate")
+  address        String?    @map("Address")
+  city           String?    @map("City")
+  state          String?    @map("State")
+  country        String?    @map("Country")
+  postalCode     String?    @map("PostalCode")
+  phone          String?    @map("Phone")
+  fax            String?    @map("Fax")
+  email          String?    @map("Email")
+  customer       Customer[]
+  employee       Employee?  @relation("EmployeeToEmployee", fields: [reportsTo], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_Employee Employee[] @relation("EmployeeToEmployee")
+
+  @@index([reportsTo], map: "IFK_EmployeeReportsTo")
+}
+
+model Genre {
+  id    Int     @id @default(autoincrement()) @map("id")
+  name  String? @map("Name")
+  Track Track[]
+}
+
+model Invoice {
+  id                Int           @id @default(autoincrement()) @map("InvoiceId")
+  customerId        Int           @map("CustomerId")
+  invoiceDate       DateTime      @map("InvoiceDate")
+  billingAddress    String?       @map("BillingAddress")
+  billingCity       String?       @map("BillingCity")
+  billingState      String?       @map("BillingState")
+  billingCountry    String?       @map("BillingCountry")
+  billingPostalCode String?       @map("BillingPostalCode")
+  total             Decimal       @map("Total")
+  customer          Customer      @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invoiceLine       InvoiceLine[]
+
+  @@index([id], map: "IFK_InvoiceCustomerId")
+}
+
+model InvoiceLine {
+  id        Int     @id @default(autoincrement()) @map("InvoiceLineId")
+  invoiceId Int     @map("InvoiceId")
+  trackId   Int     @map("TrackId")
+  unitPrice Decimal @map("UnitPrice")
+  quantity  Int     @map("Quantity")
+  track     Track   @relation(fields: [trackId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([trackId], map: "IFK_InvoiceLineTrackId")
+  @@index([invoiceId], map: "IFK_InvoiceLineInvoiceId")
+}
+
+model MediaType {
+  id    Int     @id @default(autoincrement()) @map("MediaTypeId")
+  name  String? @map("InvoiceId")
+  Track Track[]
+}
+
+model Playlist {
+  id            Int             @id @default(autoincrement()) @map("PlaylistId")
+  name          String?         @map("Name")
+  playlistTrack PlaylistTrack[]
+}
+
+model PlaylistTrack {
+  playlistId Int      @map("PlaylistId")
+  trackId    Int      @map("TrackId")
+  track      Track    @relation(fields: [trackId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([playlistId, trackId])
+  @@index([trackId], map: "IFK_PlaylistTrackTrackId")
+}
+
+model Track {
+  id            Int             @id @default(autoincrement()) @map("TrackId")
+  name          String          @map("Name")
+  albumId       Int?            @map("AlbumId")
+  mediaTypeId   Int             @map("MediaTypeId")
+  genreId       Int?            @map("GenreId")
+  composer      String?         @map("Composer")
+  milliseconds  Int             @map("Milliseconds")
+  bytes         Int?            @map("Bytes")
+  unitPrice     Decimal         @map("UnitPrice")
+  invoiceLine   InvoiceLine[]
+  playlistTrack PlaylistTrack[]
+  mediaType     MediaType       @relation(fields: [mediaTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  genre         Genre?          @relation(fields: [genreId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  album         Album?          @relation(fields: [albumId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([mediaTypeId], map: "IFK_TrackMediaTypeId")
+  @@index([genreId], map: "IFK_TrackGenreId")
+  @@index([albumId], map: "IFK_TrackAlbumId")
+}
+
+//
+// Necessary for Next auth
+//
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? // @db.Text
+  access_token      String? // @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? // @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
