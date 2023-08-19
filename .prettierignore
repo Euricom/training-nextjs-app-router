@@ -1,0 +1,8 @@
+# Ignore artifacts:
+build
+coverage
+
+# Ignore lock files
+pnpm-lock.yaml
+pnpm-workspace.yaml
+package.json

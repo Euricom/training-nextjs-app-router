@@ -1,0 +1,21 @@
+{
+  "name": "training-nextjs-app-router",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "format": "prettier --check .",
+    "format:fix": "prettier --write ."
+  },
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "javascript"
+  ],
+  "author": "Peter Cosemans",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.2",
+    "prettier-plugin-tailwindcss": "^0.5.3"
+  }
+}
