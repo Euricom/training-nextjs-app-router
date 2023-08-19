@@ -1,6 +1,6 @@
 import { renderTrpcPanel } from 'trpc-panel';
 import { appRouter } from '@/server/api/root';
-import { getBaseUrl } from '@/app/utils/trpcShared';
+import { getBaseUrl } from '@/utils/trpc/shared';
 
 export const GET = (_req: Request) => {
   const panel = renderTrpcPanel(appRouter, {

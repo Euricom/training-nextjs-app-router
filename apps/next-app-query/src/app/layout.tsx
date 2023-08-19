@@ -1,7 +1,8 @@
-import '@/styles/globals.css';
+import '@/styles.css';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import QueryProvider from './queryProvider';
+import Header from './_components/header';
+import QueryProvider from '../utils/query/provider';
 
 // Automatically self-host Google Font with auto fallback to system fonts
 // Fonts are included in the deployment and served from the same domain as your deployment.
@@ -23,8 +24,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} font-sans`}>
-        <QueryProvider>{children}</QueryProvider>
+      <body className={`font-sans antialiased ${roboto.variable}`} suppressHydrationWarning={true}>
+        <div className="relative min-h-screen md:flex">
+          <Header />
+          <main className="flex-1 p-10">
+            <QueryProvider>{children}</QueryProvider>
+          </main>
+        </div>
       </body>
     </html>
   );

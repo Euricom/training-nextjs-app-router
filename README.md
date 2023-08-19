@@ -24,3 +24,4 @@ React Server Components
 - [Understanding React Server Components](https://vercel.com/blog/understanding-react-server-components)
 - [5 Common Pitfalls with Server Components in Next13 (with examples)](https://www.propelauth.com/post/5-common-pitfalls-with-server-components-in-next13-with-examples)
 - [Setting Up React Query in Your Next.js 13 App](https://blog.gogrow.dev/setting-up-react-query-in-your-next-js-13-app-e8edea0d20cc)
+- [How to Setup React Query in Next.js 13 App Directory](https://codevoweb.com/setup-react-query-in-nextjs-13-app-directory/)

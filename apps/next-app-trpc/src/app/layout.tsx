@@ -1,8 +1,8 @@
-import '@/styles/globals.css';
+import '@/styles.css';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import { TrpcProvider } from './utils/trpcProvider';
-import HeaderMenu from './_components/headerMenu';
+import { TrpcProvider } from '@/utils/trpc/provider';
+import Header from './_components/header';
 
 // Automatically self-host Google Font with auto fallback to system fonts
 // Fonts are included in the deployment and served from the same domain as your deployment.
@@ -16,7 +16,7 @@ const roboto = Roboto({
 
 // Metadata is used to populate <head> tags in the HTML.
 export const metadata: Metadata = {
-  title: 'My Next App',
+  title: 'Awesome App',
   description: "Peter's super awesome next app",
 };
 
@@ -25,14 +25,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`font-sans antialiased ${roboto.variable}`} suppressHydrationWarning={true}>
-        <header>
-          <nav>
-            <HeaderMenu />
-          </nav>
-        </header>
-        <main className="p-2">
-          <TrpcProvider>{children}</TrpcProvider>
-        </main>
+        <div className="relative min-h-screen md:flex">
+          <Header />
+          <main className="flex-1 p-10">
+            <TrpcProvider>{children}</TrpcProvider>
+          </main>
+        </div>
       </body>
     </html>
   );

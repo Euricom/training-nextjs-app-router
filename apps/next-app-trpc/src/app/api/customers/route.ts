@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import NextResponse, { withErrorHandling } from '@/server/httpUtils';
-import { getSearchParams } from '@/server/requestUtils';
+import NextResponse, { withErrorHandling } from '@/utils/http/responses';
+import { getSearchParams } from '@/utils/http/params';
 import { prisma } from '@/server/db';
-import { getOrderBy } from '@/server/dbUtils';
+import { getOrderBy } from '@/utils/db/query';
 
 const GetParamsSchema = z.object({
   page: z.coerce.number().optional(),

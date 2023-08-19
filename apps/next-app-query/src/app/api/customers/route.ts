@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import NextResponse, { withErrorHandling } from '@/server/httpUtils';
-import { getSearchParams } from '@/server/requestUtils';
+import NextResponse, { withErrorHandling } from '@/utils/http/responses';
+import { getSearchParams } from '@/utils/http/params';
 import { prisma } from '@/server/db';
-import { getOrderBy } from '@/server/dbUtils';
+import { getOrderBy } from '@/utils/db/query';
 
 const GetParamsSchema = z.object({
   page: z.coerce.number().optional(),
@@ -12,7 +12,7 @@ const GetParamsSchema = z.object({
 
 export const GET = (request: Request) => {
   return withErrorHandling(async () => {
-    const { page = 0, pageSize = 20, sortBy = 'LastName' } = getSearchParams(request, GetParamsSchema);
+    const { page = 0, pageSize = 50, sortBy = 'LastName' } = getSearchParams(request, GetParamsSchema);
     console.log(`getUsers: page=${page}, pageSize=${pageSize}, sortBy=${sortBy}`);
 
     const customers = await prisma.customer.findMany({

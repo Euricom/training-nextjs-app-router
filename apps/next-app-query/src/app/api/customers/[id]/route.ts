@@ -1,5 +1,5 @@
 import { prisma } from '@/server/db';
-import NextResponse, { withErrorHandling } from '@/server/httpUtils';
+import NextResponse, { withErrorHandling } from '@/utils/http/responses';
 
 type Context = {
   params: {

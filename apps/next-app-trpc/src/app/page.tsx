@@ -3,8 +3,8 @@ import CustomerList from './_components/customerList';
 export default function Home() {
   return (
     <>
-      <p>This is the main content area</p>
-      <CustomerList />
+      <h1 className="mb-3 text-xl font-bold">Home Page</h1>
+      <CustomerList className="mt-2" />
     </>
   );
 }
