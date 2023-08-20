@@ -1,0 +1,20 @@
+GET http://localhost:3000/api/customers
+
+###
+# GET Single Customer
+
+GET http://localhost:3000/api/customers/1
+
+###
+# PUT customer
+PUT http://localhost:3000/api/customers/1
+
+{
+    "id": 1,
+    "firstName": "Luís",
+    "lastName": "Gonçalves",
+    "email": "luis.goncalves@euri.com"
+}
+
+
+
