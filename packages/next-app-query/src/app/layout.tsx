@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import Header from './_components/header';
 import QueryProvider from '../utils/query/provider';
+import Link from 'next/link';
 
 // Automatically self-host Google Font with auto fallback to system fonts
 // Fonts are included in the deployment and served from the same domain as your deployment.

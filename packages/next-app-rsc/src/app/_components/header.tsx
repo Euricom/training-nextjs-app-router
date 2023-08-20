@@ -1,5 +1,7 @@
+'use client';
+
 import MenuButton from './mobileMenuButton';
-import NavLink from './navLink';
+// import Link from 'next/link';
 
 export default function Header() {
   return (
@@ -16,7 +18,7 @@ export default function Header() {
       {/* sidebar */}
       <div
         id="sidebar"
-        className="absolute inset-y-0 left-0 w-64 -translate-x-full transform space-y-6 bg-gray-800 px-2 py-7 text-blue-100 transition duration-200 ease-in-out md:relative md:translate-x-0"
+        className="absolute inset-y-0 left-0 z-50 w-64 -translate-x-full transform space-y-6 bg-gray-800 px-2 py-7 text-blue-100 transition duration-200 ease-in-out md:relative md:translate-x-0"
       >
         {/* logo */}
         <div className="flex flex-col">
@@ -41,36 +43,30 @@ export default function Header() {
         </div>
         {/* nav */}
         <nav>
-          <NavLink
-            href="/"
-            className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-          >
+          <a href="/" className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
             Employees
-          </NavLink>
-          <NavLink
+          </a>
+          <a
             href="customers"
             className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
           >
             Customers
-          </NavLink>
-          <NavLink
+          </a>
+          <a
             href="features"
             className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
           >
             Features
-          </NavLink>
-          <NavLink
+          </a>
+          <a
             href="about"
             className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
           >
             About
-          </NavLink>
-          <NavLink
-            href="#"
-            className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
-          >
+          </a>
+          <a href="#" className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
             Other
-          </NavLink>
+          </a>
         </nav>
       </div>
     </>

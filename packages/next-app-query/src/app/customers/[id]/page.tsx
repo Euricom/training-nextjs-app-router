@@ -17,7 +17,12 @@ export default function CustomerFormPage(props: { params: { id: string } }) {
     <>
       {customer && <CustomerForm customer={customer} />}
       <div className="mt-5">
-        <Link className="underline" href="/customers">
+        <Link
+          className="underline"
+          href={{
+            pathname: '/customers',
+          }}
+        >
           Go Back
         </Link>
       </div>
