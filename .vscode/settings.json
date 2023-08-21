@@ -1,9 +1,12 @@
 {
   "cSpell.words": [
+    "CLIENTVAR",
     "Cosemans",
     "daisyui",
     "hono",
     "hookform",
+    "middlewares",
+    "NEXTAUTH",
     "nextjs",
     "ofetch",
     "roboto",

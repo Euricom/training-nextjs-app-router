@@ -1,18 +1,35 @@
-import Head from "next/head";
-import CustomerList from "./_components/customerList";
+import { useQuery } from '@tanstack/react-query';
+import { getEmployees } from '@/server/api/endpoints/employees';
 
 export default function Home() {
+  // next to trpc we can combine react-query to fetch from 3th party
+  // endpoints (see also the proxy endpoint)
+  const { data } = useQuery(['employees'], getEmployees);
   return (
     <>
-      <Head>
-        <title>Awesome App</title>
-        <meta name="description" content="Peter's super awesome next app" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main>
-        <h1 className="mb-3 text-xl font-bold">Home Page</h1>
-        <CustomerList className="mt-2" />
-      </main>
+      <h1 className="mb-3 text-xl font-bold">Employees</h1>
+      <table className="table table-md">
+        <thead>
+          <tr>
+            <th className="hidden lg:table-cell">Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Title</th>
+            <th>birthDate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data?.map((item) => (
+            <tr key={item.id}>
+              <td className="hidden lg:table-cell">{item.id}</td>
+              <td>{item.firstName}</td>
+              <td>{item.lastName}</td>
+              <td>{item.title}</td>
+              <td>{item.birthDate.toLocaleDateString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }
