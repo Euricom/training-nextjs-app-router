@@ -1,7 +1,6 @@
-'use client';
-
 import MenuButton from './mobileMenuButton';
 // import Link from 'next/link';
+import NavLink from './navLink';
 
 export default function Header() {
   return (
@@ -39,34 +38,40 @@ export default function Header() {
             </svg>
             <span className="text-2xl font-extrabold">Awesome App</span>
           </a>
-          <p className="ml-5">App Router - tRPC</p>
+          <p className="ml-5">App Router - RSC</p>
         </div>
         {/* nav */}
         <nav>
-          <a href="/" className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+          <NavLink
+            href="/"
+            className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+          >
             Employees
-          </a>
-          <a
-            href="customers"
+          </NavLink>
+          <NavLink
+            href="/customers"
             className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
           >
             Customers
-          </a>
-          <a
-            href="features"
+          </NavLink>
+          <NavLink
+            href="/features"
             className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
           >
             Features
-          </a>
-          <a
-            href="about"
+          </NavLink>
+          <NavLink
+            href="/about"
             className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
           >
             About
-          </a>
-          <a href="#" className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white">
+          </NavLink>
+          <NavLink
+            href="#"
+            className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+          >
             Other
-          </a>
+          </NavLink>
         </nav>
       </div>
     </>
