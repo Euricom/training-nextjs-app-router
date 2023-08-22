@@ -9,6 +9,7 @@ Following features are added:
 - Proxy support to pass requests to 3th party backend
 - GetServerSideProps example with inner tRPC call
 - API client wrapper around fetch
+- Unit testing trpc procedures with mocked prisma
 
 ## Getting Started
 
