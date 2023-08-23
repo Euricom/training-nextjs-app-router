@@ -18,7 +18,7 @@ export const customerList = (): Customer[] => {
       email: 'john.doe@company.com',
     },
     {
-      id: 1,
+      id: 2,
       firstName: 'Jane',
       lastName: 'Brecht',
       email: 'jane.brecht@company.com',

@@ -9,11 +9,12 @@ export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
     log: env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-    // datasources: {
-    //   db: {
-    //     url: env.NODE_ENV === 'test' ? 'mongodb://localhost:27017/test?directConnection=true' : env.DATABASE_URL,
-    //   },
-    // },
+    // Open test DB when running in test runner (vitest)
+    datasources: {
+      db: {
+        url: env.NODE_ENV === 'test' ? `file:${process.cwd()}/prisma/db-test.sqlite` : env.DATABASE_URL,
+      },
+    },
   });
 
 if (env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;

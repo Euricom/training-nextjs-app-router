@@ -35,6 +35,15 @@ export const customerRouter = createTRPCRouter({
       });
       return customers;
     }),
+
+  delete: publicProcedure.input(z.object({ id: z.number() })).query(async ({ input }) => {
+    const customers = await prisma.customer.delete({
+      where: {
+        id: input.id,
+      },
+    });
+    return customers;
+  }),
 });
 
 /**

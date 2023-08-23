@@ -27,6 +27,15 @@ const config = {
     ],
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
+  overrides: [
+    {
+      files: ['*.test.ts', '*.spec.ts'],
+      rules: {
+        '@typescript-eslint/no-unsafe-argument': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+      },
+    },
+  ],
 };
 
 module.exports = config;
