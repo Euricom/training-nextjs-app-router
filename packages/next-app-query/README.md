@@ -16,3 +16,9 @@ pnpm build
 pnpm start
 ```
 
+## Features 
+
+- [x] @tanstack/react-query integration with app router
+- [x] Prisma integration
+- [x] Custom theming with CSS variable (server side generation)
+- [x] Proxy to access transparently an external API

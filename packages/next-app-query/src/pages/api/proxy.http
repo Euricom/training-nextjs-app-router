@@ -1,3 +1,5 @@
+# Test scrips to be used with humao.rest-client VSCode extension
+
 ###
 # GET all employees 
 # Proxies to http://localhost:8080/api/employees
