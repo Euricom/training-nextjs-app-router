@@ -38,3 +38,8 @@ export const getEmployees = async () => {
   const data: EmployeeDTO[] = await get<EmployeeDTO[]>('api/employees');
   return data.map(mapEmployee);
 };
+
+export const getTodos = async () => {
+  const data: any[] = await get<EmployeeDTO[]>('https://euricom-test-api-v2.herokuapp.com/api/v1/tasks');
+  return data;
+};

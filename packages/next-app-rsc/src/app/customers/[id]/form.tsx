@@ -2,6 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateCustomerAction } from './updateCustomerAction';
 import { type FormValues, customerSchema } from './formSchema';
@@ -24,9 +25,10 @@ export default function CustomerForm({ customer }: Props) {
       id: customer.id,
       date: new Date(),
     });
-    // clear the Server Components client cache !!!
+    // make sure you clear Server Components client cache to update the list
     router.refresh();
-    router.push('/');
+    revalidatePath('/customers');
+    router.push('/customers');
   };
 
   return (

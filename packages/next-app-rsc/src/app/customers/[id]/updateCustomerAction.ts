@@ -13,7 +13,7 @@ export const updateCustomerAction = serverAct
     })
   )
   .action(async ({ input }) => {
-    console.log('>>>>> updateCustomerAction', input);
+    console.log('updateCustomerAction', input);
     await prisma.customer.update({
       data: {
         firstName: input.firstName,

@@ -25,3 +25,4 @@ React Server Components
 - [5 Common Pitfalls with Server Components in Next13 (with examples)](https://www.propelauth.com/post/5-common-pitfalls-with-server-components-in-next13-with-examples)
 - [Setting Up React Query in Your Next.js 13 App](https://blog.gogrow.dev/setting-up-react-query-in-your-next-js-13-app-e8edea0d20cc)
 - [How to Setup React Query in Next.js 13 App Directory](https://codevoweb.com/setup-react-query-in-nextjs-13-app-directory/)
+- [setting up next-auth with the new app directory](https://medium.com/@nelson3chege/setting-up-next-auth-with-the-new-app-directory-5d36e29feaff?source=email-61ef5887811c-1692754457108-digest.reader--5d36e29feaff----0-58------------------3a3a1021_8b49_40f1_91c1_a5c0b304de08-1)
