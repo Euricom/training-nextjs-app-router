@@ -1,6 +1,6 @@
-import api from './root';
+import { api } from '@/utils/api/client';
 
-// This type can be auto generated where there is a
+// These can be auto generated where there is a
 // open API (swagger) available
 
 export type EmployeeDTO = {
@@ -35,8 +35,6 @@ const mapEmployee = (employee: EmployeeDTO): Employee => {
 };
 
 export const getEmployees = async () => {
-  const data = await api.get<EmployeeDTO[]>('api/employees', {
-    // next: { revalidate: 10 },
-  });
+  const data: EmployeeDTO[] = await api.get<EmployeeDTO[]>('api/employees');
   return data.map(mapEmployee);
 };

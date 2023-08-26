@@ -1,4 +1,4 @@
-import { getEmployees } from '@/server/api/employees';
+import { getEmployees } from '@/endpoints/employees';
 
 export default async function Home() {
   const employees = await getEmployees();
