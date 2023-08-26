@@ -4,11 +4,7 @@
 import Link from 'next/link';
 import CustomerForm from './form';
 import { useQuery } from '@tanstack/react-query';
-import type { Customer } from '@/app/api/customers/route';
-
-const getCustomer = (id: number) => {
-  return fetch(`/api/customers/${id}`).then((res) => res.json()) as Promise<Customer>;
-};
+import { getCustomer } from '@/endpoints/customers';
 
 export default function CustomerFormPage(props: { params: { id: string } }) {
   const id = Number(props.params.id);

@@ -145,6 +145,9 @@ importers:
       daisyui:
         specifier: ^3.5.1
         version: 3.5.1
+      destr:
+        specifier: ^2.0.1
+        version: 2.0.1
       http-proxy:
         specifier: ^1.18.1
         version: 1.18.1
@@ -164,7 +167,7 @@ importers:
         specifier: ^1.14.0
         version: 1.14.0
       zod:
-        specifier: ^3.22.1
+        specifier: ^3.22.2
         version: 3.22.2
     devDependencies:
       '@next/bundle-analyzer':

@@ -1,0 +1,35 @@
+GET http://localhost:3000/api/customers
+
+###
+# GET Single Customer
+
+GET http://localhost:3000/api/customers/1
+
+###
+# POST customer
+POST http://localhost:3000/api/customers
+content-type: application/json
+
+{
+    "firstName": "Luís",
+    "lastName": "Gonçalves",
+    "email": "luis.goncalves@euri.com"
+}
+
+###
+# PUT customer
+PUT http://localhost:3000/api/customers/1
+content-type: application/json
+
+{
+    "id": 1,
+    "firstName": "Luís",
+    "lastName": "Gonçalves",
+    "email": "luis.goncalves@euri.com"
+}
+
+###
+# DELETE customer 
+DELETE http://localhost:3000/api/customers/60
+
+

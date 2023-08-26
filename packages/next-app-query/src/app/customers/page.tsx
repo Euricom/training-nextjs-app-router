@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import CustomerList from '../_components/customerList';
+import CustomerList from './customerList';
 
 export default function Customers() {
   return (

@@ -1,7 +1,8 @@
 import type { Customer } from '@prisma/client';
 import { prisma } from '@/server/db';
-import NextResponse, { withErrorHandling } from '@/utils/http/responses';
+import NextResponse from '@/server/utils/responses';
 import { z } from 'zod';
+import withErrorHandling from '@/server/utils/withErrorHandling';
 
 type Context = {
   params: {
@@ -9,47 +10,58 @@ type Context = {
   };
 };
 
-// TODO: refactor with https://www.npmjs.com/package/next-connect
-
-export const GET = (_request: Request, { params }: Context) => {
-  return withErrorHandling(async () => {
-    const customer = await prisma.customer.findFirst({
-      where: {
-        id: Number(params.id),
-      },
-    });
-    if (!customer) {
-      return NextResponse.notFound(`Customer with id ${params.id} not found`);
-    }
-    return NextResponse.ok(customer);
+export const GET = withErrorHandling(async (_request: Request, { params }: Context) => {
+  const customer = await prisma.customer.findFirst({
+    where: {
+      id: Number(params.id),
+    },
   });
-};
+  if (!customer) {
+    return NextResponse.notFound(`Customer with id ${params.id} not found`);
+  }
+  return NextResponse.ok(customer);
+});
+
+export const DELETE = withErrorHandling(async (_request: Request, { params }: Context) => {
+  const customer = await prisma.customer.findFirst({
+    where: {
+      id: Number(params.id),
+    },
+  });
+  if (!customer) return NextResponse.noContent();
+
+  await prisma.customer.delete({
+    where: {
+      id: Number(params.id),
+    },
+  });
+
+  return NextResponse.ok(customer);
+});
 
 const customerUpdateSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  email: z.string().email(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  email: z.string().email().optional(),
 });
 
 export type CustomerUpdate = z.infer<typeof customerUpdateSchema>;
 
-export const PUT = (request: Request, { params }: Context) => {
-  return withErrorHandling(async () => {
-    const body = await request.json();
-    const data = customerUpdateSchema.parse(body);
+export const PUT = withErrorHandling(async (request: Request, { params }: Context) => {
+  const body = await request.json();
+  const data = customerUpdateSchema.parse(body);
 
-    const customer = await prisma.customer.update({
-      data: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-      },
-      where: {
-        id: Number(params.id),
-      },
-    });
-    return NextResponse.ok(customer);
+  const customer = await prisma.customer.update({
+    data: {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+    },
+    where: {
+      id: Number(params.id),
+    },
   });
-};
+  return NextResponse.ok(customer);
+});
 
 export type { Customer };

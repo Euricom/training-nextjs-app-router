@@ -2,18 +2,12 @@
 
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import type { Customer } from '@/app/api/customers/route';
+import { getCustomers } from '@/endpoints/customers';
 
 export default function CustomerList({ className }: { className?: string }) {
-  const { data } = useQuery<Customer[]>(
-    ['customers'],
-    () => {
-      return fetch('http://localhost:3000/api/customers').then((res) => res.json());
-    },
-    {
-      suspense: true,
-    }
-  );
+  const { data } = useQuery(['customers'], () => getCustomers(), {
+    suspense: true,
+  });
 
   return (
     <div className={className}>

@@ -4,21 +4,11 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type FormValues, customerSchema } from './formSchema';
-import type { CustomerUpdate, Customer } from '@/app/api/customers/[id]/route';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { type Customer, saveCustomer } from '@/endpoints/customers';
 
 type Props = {
   customer: Customer;
-};
-
-const saveCustomer = (input: CustomerUpdate & { id: number }) => {
-  return fetch(`/api/customers/${input.id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(input),
-  }).then((res) => res.json()) as Promise<Customer>;
 };
 
 export default function CustomerForm({ customer }: Props) {

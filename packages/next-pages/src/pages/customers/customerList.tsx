@@ -1,4 +1,4 @@
-import { getCustomers } from '@/api/endpoints/customers';
+import { getCustomers } from '@/endpoints/customers';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 

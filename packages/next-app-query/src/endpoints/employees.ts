@@ -1,4 +1,4 @@
-import api from './root';
+import { api } from '@/utils/api/client';
 
 // These can be auto generated where there is a
 // open API (swagger) available

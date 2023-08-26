@@ -1,7 +1,7 @@
 'use client';
 
+import { getEmployees } from '@/endpoints/employees';
 import { useQuery } from '@tanstack/react-query';
-import { getEmployees } from '@/server/api/employees';
 
 export default function Home() {
   const { data } = useQuery(['employees'], getEmployees);

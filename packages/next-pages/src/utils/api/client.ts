@@ -43,7 +43,6 @@ export function xFetch<TData>(input: RequestInfo, options?: RequestInit): Promis
     })
     .then(([res, body]) => {
       const contentType = res.headers.get('Content-Type');
-      console.log('xFetch', res.url, res.status, res.statusText, contentType);
       if (contentType?.includes('application/json')) {
         // faster than JSON.parse,
         // and safe fallback when its not JSON
@@ -66,8 +65,8 @@ const getFullUrl = (path: string, baseUrl?: string) => {
 };
 
 /**
- * Create a api client to be used for API calls.
- * This is a simple wrapper around fetch with error handling
+ * Create an api client to be used for API calls.
+ * Similar to axios.create()
  *
  * Usage:
  * ```

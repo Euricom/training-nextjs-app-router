@@ -1,26 +1,13 @@
+import { getEmployees } from '@/endpoints/employees';
 import { useQuery } from '@tanstack/react-query';
-// import { getEmployees } from '@/server/api/endpoints/employees';
 
 export default function Home() {
-  // next to trpc we can combine react-query to fetch from 3th party
-  // endpoints (see also the proxy endpoint)
-  // const { data } = useQuery(['employees'], getEmployees);
-
-  // const { data: todos } = useQuery(['todos'], () =>
-  //   fetch('http://localhost:3001/api/v1/basket/123/products/1003', {
-  //     method: 'PATCH',
-  //     body: JSON.stringify({
-  //       quantity: 2,
-  //     }),
-  //   }).then((res) => res.json())
-  // );
-
-  // console.log(todos);
+  const { data } = useQuery(['employees'], getEmployees);
 
   return (
     <>
       <h1 className="mb-3 text-xl font-bold">Employees</h1>
-      {/* <table className="table table-md">
+      <table className="table table-md">
         <thead>
           <tr>
             <th className="hidden lg:table-cell">Id</th>
@@ -41,7 +28,7 @@ export default function Home() {
             </tr>
           ))}
         </tbody>
-      </table> */}
+      </table>
     </>
   );
 }
