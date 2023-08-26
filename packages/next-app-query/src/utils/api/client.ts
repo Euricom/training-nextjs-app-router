@@ -1,4 +1,6 @@
-import destr from 'destr';
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { getBaseUrl, getFullUrl } from './url';
 
 /**
  * API Client to be used for 3th party API calls.
@@ -41,9 +43,9 @@ function isPlainObject(value: unknown) {
  * @returns
  */
 export function xFetch<TData>(input: RequestInfo, options?: Options): Promise<TData> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let init: any = options;
   if (isPlainObject(options?.body)) {
+    // stringify body and set content type to json
     init = {
       ...options,
       body: JSON.stringify(options?.body),
@@ -53,35 +55,22 @@ export function xFetch<TData>(input: RequestInfo, options?: Options): Promise<TD
       },
     };
   }
-  return fetch(input, init)
-    .then((res) => {
-      if (!res.ok) {
-        const url = typeof input === 'string' ? input : undefined;
-        throw new FetchError(res.status, res.statusText, url);
-      }
-      return Promise.all([res, res.text()]);
-    })
-    .then(([res, body]) => {
-      const contentType = res.headers.get('Content-Type');
-      if (contentType?.includes('application/json')) {
-        // faster than JSON.parse,
-        // and safe fallback when its not JSON
-        return destr<TData>(body);
-      }
-      return body;
-    }) as Promise<TData>;
+  return fetch(input, init).then((res) => {
+    if (!res.ok) {
+      const url = typeof input === 'string' ? input : undefined;
+      throw new FetchError(res.status, res.statusText, url);
+    }
+    const contentType = res.headers.get('Content-Type');
+    if (contentType?.includes('application/json')) {
+      return res.json();
+    }
+    return res.text();
+  }) as Promise<TData>;
 }
 
 type ApiOptions = {
   baseUrl: string;
   headers?: Record<string, string>;
-};
-
-const getFullUrl = (path: string, baseUrl?: string) => {
-  if (path.startsWith('http')) return path;
-  if (!baseUrl) return path;
-  const url = new URL(path, baseUrl);
-  return url.href;
 };
 
 /**
@@ -159,12 +148,6 @@ export function create(rootOptions: ApiOptions) {
     },
   };
 }
-
-export const getBaseUrl = () => {
-  if (typeof window !== 'undefined') return ''; // browser should use relative url
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
-  return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
-};
 
 export const api = create({
   baseUrl: getBaseUrl(),

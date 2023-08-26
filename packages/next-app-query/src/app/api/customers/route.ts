@@ -12,13 +12,13 @@ const GetParamsSchema = z.object({
 });
 
 export const GET = withErrorHandling(async (request: Request) => {
-  const { page = 0, pageSize = 50, sortBy = 'lastName' } = getSearchParams(request, GetParamsSchema);
+  const { page = 0, pageSize = 50, sortBy } = getSearchParams(request, GetParamsSchema);
   console.log(`GET /api/customers - page=${page}, pageSize=${pageSize}, sortBy=${sortBy}`);
 
   const customers = await prisma.customer.findMany({
     skip: page * pageSize,
     take: pageSize,
-    orderBy: getOrderBy(sortBy),
+    orderBy: getOrderBy(sortBy ?? 'lastName'),
   });
 
   return NextResponse.ok(customers);

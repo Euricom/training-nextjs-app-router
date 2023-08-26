@@ -1,3 +1,4 @@
+import { FormValues } from '@/app/customers/[id]/formSchema';
 import { api } from '@/utils/api/client';
 
 // These can be auto generated where there is a
@@ -23,8 +24,8 @@ const mapCustomer = (source: CustomerDTO): Customer => {
   };
 };
 
-export const getCustomers = async () => {
-  const data = await api.get<CustomerDTO[]>('/api/customers');
+export const getCustomers = async (sortBy: string) => {
+  const data = await api.get<CustomerDTO[]>(`/api/customers?sortBy=${sortBy}`);
   return data.map(mapCustomer);
 };
 
@@ -34,12 +35,11 @@ export const getCustomer = async (id: number | string) => {
 };
 
 export type CustomerUpdateDTO = {
-  id: number;
   lastName?: string;
   firstName?: string;
   email?: string;
 };
 
-export const saveCustomer = async (inputs: CustomerUpdateDTO & { id: number }) => {
-  return api.put(`/api/customers/${inputs.id}`, inputs);
+export const saveCustomer = async (input: { customerId: number; values: CustomerUpdateDTO }) => {
+  return api.put(`/api/customers/${input.customerId}`, input.values);
 };

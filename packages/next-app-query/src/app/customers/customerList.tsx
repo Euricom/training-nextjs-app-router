@@ -3,11 +3,21 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { getCustomers } from '@/endpoints/customers';
+import { useState } from 'react';
 
-export default function CustomerList({ className }: { className?: string }) {
-  const { data } = useQuery(['customers'], () => getCustomers(), {
+type CustomerListProps = {
+  className?: string;
+};
+
+export default function CustomerList({ className }: CustomerListProps) {
+  const [sortBy, setSortBy] = useState('');
+  const { data } = useQuery(['customers', sortBy], () => getCustomers(sortBy), {
     suspense: true,
   });
+
+  const handleSort = (sortBy: string) => {
+    setSortBy(sortBy);
+  };
 
   return (
     <div className={className}>
@@ -15,8 +25,16 @@ export default function CustomerList({ className }: { className?: string }) {
         <thead>
           <tr>
             <th className="hidden lg:table-cell">Id</th>
-            <th className="hidden lg:table-cell">First Name</th>
-            <th>Last Name</th>
+            <th className="hidden lg:table-cell">
+              <span className="cursor-pointer" onClick={() => handleSort('firstName')}>
+                First Name
+              </span>
+            </th>
+            <th>
+              <span className="cursor-pointer" onClick={() => handleSort('lastName')}>
+                Last Name
+              </span>
+            </th>
             <th>Email</th>
             <th>Phone</th>
             <th className="hidden lg:table-cell">Address</th>

@@ -3,7 +3,9 @@
 import { getEmployees } from '@/endpoints/employees';
 import { useQuery } from '@tanstack/react-query';
 
-export default function Home() {
+type PageProps = { params: unknown; searchParams: unknown };
+
+export default function Home(_props: PageProps) {
   const { data } = useQuery(['employees'], getEmployees);
   return (
     <>

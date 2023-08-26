@@ -6,8 +6,10 @@ import CustomerForm from './form';
 import { useQuery } from '@tanstack/react-query';
 import { getCustomer } from '@/endpoints/customers';
 
-export default function CustomerFormPage(props: { params: { id: string } }) {
-  const id = Number(props.params.id);
+type PageProps = { params: { id: string }; searchParams: unknown };
+
+export default function CustomerFormPage({ params }: PageProps) {
+  const id = Number(params.id);
   const { data: customer } = useQuery(['customers', id], () => getCustomer(id));
   return (
     <>

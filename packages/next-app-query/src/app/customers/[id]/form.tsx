@@ -5,17 +5,18 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type FormValues, customerSchema } from './formSchema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { type Customer, saveCustomer } from '@/endpoints/customers';
+import { saveCustomer } from '@/endpoints/customers';
 
-type Props = {
-  customer: Customer;
+type FormProps = {
+  customerId: number;
+  defaultValues: FormValues;
 };
 
-export default function CustomerForm({ customer }: Props) {
+export default function CustomerForm({ defaultValues, customerId }: FormProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { handleSubmit, register, formState } = useForm<FormValues>({
-    defaultValues: customer,
+    defaultValues,
     resolver: zodResolver(customerSchema),
   });
 
@@ -28,8 +29,8 @@ export default function CustomerForm({ customer }: Props) {
 
   const onSubmit = (values: FormValues) => {
     mutate({
-      id: customer.id,
-      ...values,
+      customerId,
+      values,
     });
     router.refresh();
     router.push('/');
@@ -39,7 +40,7 @@ export default function CustomerForm({ customer }: Props) {
     <>
       <h1 className="mb-3 text-xl font-bold">Customer Form</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="hidden" name="id" defaultValue={customer?.id} />
+        <input type="hidden" name="id" defaultValue={customerId} />
         <div className="form-control w-full max-w-xs">
           <label className="label">First Name</label>
           <input type="text" className="input input-bordered w-full max-w-xs" {...register('firstName')} />

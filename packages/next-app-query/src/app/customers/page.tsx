@@ -1,7 +1,9 @@
 import { Suspense } from 'react';
 import CustomerList from './customerList';
 
-export default function Customers() {
+type PageProps = { params: unknown; searchParams: unknown };
+
+export default function Customers(_props: PageProps) {
   return (
     <>
       <h1 className="mb-3 text-xl font-bold">Customers</h1>
