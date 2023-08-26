@@ -1,0 +1,40 @@
+###
+# GET all customers 
+
+GET http://localhost:3000/api/customers
+
+###
+# GET single customer by id
+
+GET http://localhost:3000/api/customers/1
+
+###
+# POST customer 
+
+POST http://localhost:3000/api/customers
+content-type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@email.com"
+}
+
+###
+# PUT customer 
+
+PUT http://localhost:3000/api/customers/1
+content-type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@email.com"
+}
+
+###
+# DELETE customer 
+DELETE http://localhost:3000/api/customers/61
+
+
+

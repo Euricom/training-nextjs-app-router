@@ -1,0 +1,16 @@
+###
+# GET all employees 
+# Proxies to http://localhost:8080/api/employees
+
+GET http://localhost:3000/api/employees
+
+###
+# GET all artists 
+# Proxies to http://localhost:8080/api/artists
+
+GET http://localhost:3000/api/artists
+
+
+
+
+
