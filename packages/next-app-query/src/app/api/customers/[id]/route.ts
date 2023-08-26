@@ -9,6 +9,8 @@ type Context = {
   };
 };
 
+// TODO: refactor with https://www.npmjs.com/package/next-connect
+
 export const GET = (_request: Request, { params }: Context) => {
   return withErrorHandling(async () => {
     const customer = await prisma.customer.findFirst({

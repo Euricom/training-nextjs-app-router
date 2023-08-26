@@ -3,6 +3,8 @@
     "CLIENTVAR",
     "Cosemans",
     "daisyui",
+    "datasources",
+    "destr",
     "hono",
     "hookform",
     "middlewares",

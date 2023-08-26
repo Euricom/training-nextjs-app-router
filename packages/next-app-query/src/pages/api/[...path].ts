@@ -1,6 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import type { IncomingMessage, ServerResponse } from 'http';
-import type { NextApiRequest } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import httpProxy from 'http-proxy';
 import { env } from '@/env.mjs';
 
@@ -23,7 +22,7 @@ const getAccessToken = async (_req: NextApiRequest) => {
 // our proxy instance
 const proxy = httpProxy.createProxyServer();
 
-export default async (req: NextApiRequest, res: ServerResponse<IncomingMessage>) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const accessToken = await getAccessToken(req);
 
   // don't forward cookies

@@ -23,7 +23,7 @@
     "@t3-oss/env-nextjs": "^0.6.1",
     "@tanstack/react-query": "^4.33.0",
     "@tanstack/react-query-devtools": "^4.33.0",
-    "@tanstack/react-query-next-experimental": "5.0.0-beta.16",
+    "@tanstack/react-query-next-experimental": "5.0.0-beta.19",
     "daisyui": "^3.5.1",
     "http-proxy": "^1.18.1",
     "next": "13.4.19",
