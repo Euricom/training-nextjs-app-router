@@ -1,4 +1,4 @@
-GET http://localhost:3000/api/customers
+GET http://localhost:3000/api/customers?sortyBy=firstName
 
 ###
 # GET Single Customer

@@ -18,7 +18,8 @@ export const GET = withErrorHandling(async (request: Request) => {
   const customers = await prisma.customer.findMany({
     skip: page * pageSize,
     take: pageSize,
-    orderBy: getOrderBy(sortBy ?? 'lastName'),
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    orderBy: getOrderBy(sortBy || 'lastName'),
   });
 
   return NextResponse.ok(customers);

@@ -13,7 +13,7 @@ export default function CustomerFormPage({ params }: PageProps) {
   const { data: customer } = useQuery(['customers', id], () => getCustomer(id));
   return (
     <>
-      {customer && <CustomerForm customer={customer} />}
+      {customer && <CustomerForm customerId={id} defaultValues={customer} />}
       <div className="mt-5">
         <Link
           className="underline"

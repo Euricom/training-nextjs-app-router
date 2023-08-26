@@ -10,8 +10,9 @@ type CustomerListProps = {
 };
 
 export default function CustomerList({ className }: CustomerListProps) {
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState('firstName');
   const { data } = useQuery(['customers', sortBy], () => getCustomers(sortBy), {
+    keepPreviousData: true,
     suspense: true,
   });
 
