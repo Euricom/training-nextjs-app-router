@@ -1,8 +1,9 @@
-import type { Customer } from '@prisma/client';
+// import type { Customer } from '@prisma/client';
 import { prisma } from '@/server/db';
-import NextResponse from '@/server/utils/responses';
+import { json, noContent, type InferResponseType } from '@/server/utils/responses';
 import { z } from 'zod';
 import withErrorHandling from '@/server/utils/withErrorHandling';
+import { NotFoundError } from '@/server/utils/errors';
 
 type Context = {
   params: {
@@ -17,10 +18,12 @@ export const GET = withErrorHandling(async (_request: Request, { params }: Conte
     },
   });
   if (!customer) {
-    return NextResponse.notFound(`Customer with id ${params.id} not found`);
+    throw new NotFoundError(`Customer with id ${params.id} not found`);
   }
-  return NextResponse.ok(customer);
+  return json(customer);
 });
+
+export type Customer = InferResponseType<typeof GET>;
 
 export const DELETE = withErrorHandling(async (_request: Request, { params }: Context) => {
   const customer = await prisma.customer.findFirst({
@@ -28,7 +31,7 @@ export const DELETE = withErrorHandling(async (_request: Request, { params }: Co
       id: Number(params.id),
     },
   });
-  if (!customer) return NextResponse.noContent();
+  if (!customer) return noContent();
 
   await prisma.customer.delete({
     where: {
@@ -36,7 +39,7 @@ export const DELETE = withErrorHandling(async (_request: Request, { params }: Co
     },
   });
 
-  return NextResponse.ok(customer);
+  return json(customer);
 });
 
 const customerUpdateSchema = z.object({
@@ -61,7 +64,5 @@ export const PUT = withErrorHandling(async (request: Request, { params }: Contex
       id: Number(params.id),
     },
   });
-  return NextResponse.ok(customer);
+  return json(customer);
 });
-
-export type { Customer };

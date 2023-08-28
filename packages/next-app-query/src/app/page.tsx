@@ -1,9 +1,14 @@
 'use client';
 
-import { getEmployees } from '@/endpoints/employees';
 import { useQuery } from '@tanstack/react-query';
+import { api } from '@/utils/api/client';
+import type { Employee } from './api/employees/route';
 
 type PageProps = { params: unknown; searchParams: unknown };
+
+const getEmployees = async () => {
+  return api.get<Employee[]>('api/employees');
+};
 
 export default function Home(_props: PageProps) {
   const { data } = useQuery(['employees'], getEmployees);

@@ -5,11 +5,16 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type FormValues, customerSchema } from './formSchema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { saveCustomer } from '@/endpoints/customers';
+import { api } from '@/utils/api/client';
+import type { CustomerUpdate } from '@/app/api/customers/[id]/route';
 
 type FormProps = {
   customerId: number;
   defaultValues: FormValues;
+};
+
+const saveCustomer = async (input: { customerId: number; values: CustomerUpdate }) => {
+  return api.put(`/api/customers/${input.customerId}`, input.values);
 };
 
 export default function CustomerForm({ defaultValues, customerId }: FormProps) {

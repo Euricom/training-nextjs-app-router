@@ -1,12 +1,17 @@
 'use client';
 
+import { api } from '@/utils/api/client';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { getCustomers } from '@/endpoints/customers';
 import { useState } from 'react';
+import type { Customer } from '../api/customers/route';
 
 type CustomerListProps = {
   className?: string;
+};
+
+const getCustomers = async (sortBy: string) => {
+  return api.get<Customer[]>(`/api/customers?sortBy=${sortBy}`);
 };
 
 export default function CustomerList({ className }: CustomerListProps) {

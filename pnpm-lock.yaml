@@ -119,6 +119,109 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
+  packages/next-app-migrate-rsc:
+    dependencies:
+      '@apps/api':
+        specifier: '*'
+        version: link:../api
+      '@hookform/resolvers':
+        specifier: ^3.2.0
+        version: 3.2.0(react-hook-form@7.45.4)
+      '@prisma/client':
+        specifier: ^5.1.1
+        version: 5.1.1(prisma@5.1.1)
+      '@t3-oss/env-nextjs':
+        specifier: ^0.6.1
+        version: 0.6.1(typescript@5.1.6)(zod@3.22.2)
+      '@tanstack/react-query':
+        specifier: ^4.33.0
+        version: 4.33.0(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query-devtools':
+        specifier: ^4.33.0
+        version: 4.33.0(@tanstack/react-query@4.33.0)(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query-next-experimental':
+        specifier: 5.0.0-beta.19
+        version: 5.0.0-beta.19(@tanstack/react-query@4.33.0)(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
+      daisyui:
+        specifier: ^3.5.1
+        version: 3.5.1
+      destr:
+        specifier: ^2.0.1
+        version: 2.0.1
+      http-proxy:
+        specifier: ^1.18.1
+        version: 1.18.1
+      next:
+        specifier: 13.4.19
+        version: 13.4.19(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.45.4
+        version: 7.45.4(react@18.2.0)
+      tailwind-merge:
+        specifier: ^1.14.0
+        version: 1.14.0
+      zod:
+        specifier: ^3.22.2
+        version: 3.22.2
+    devDependencies:
+      '@next/bundle-analyzer':
+        specifier: ^13.4.19
+        version: 13.4.19
+      '@types/eslint':
+        specifier: ^8.44.2
+        version: 8.44.2
+      '@types/http-proxy':
+        specifier: ^1.17.11
+        version: 1.17.11
+      '@types/node':
+        specifier: 20.4.10
+        version: 20.4.10
+      '@types/react':
+        specifier: 18.2.20
+        version: 18.2.20
+      '@types/react-dom':
+        specifier: 18.2.7
+        version: 18.2.7
+      '@typescript-eslint/eslint-plugin':
+        specifier: 6.0.0
+        version: 6.0.0(@typescript-eslint/parser@6.0.0)(eslint@8.47.0)(typescript@5.1.6)
+      '@typescript-eslint/parser':
+        specifier: 6.0.0
+        version: 6.0.0(eslint@8.47.0)(typescript@5.1.6)
+      autoprefixer:
+        specifier: 10.4.15
+        version: 10.4.15(postcss@8.4.27)
+      eslint:
+        specifier: 8.47.0
+        version: 8.47.0
+      eslint-config-next:
+        specifier: 13.4.13
+        version: 13.4.13(eslint@8.47.0)(typescript@5.1.6)
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
+      prettier:
+        specifier: ^2.8.8
+        version: 2.8.8
+      prettier-plugin-tailwindcss:
+        specifier: ^0.2.8
+        version: 0.2.8(prettier@2.8.8)
+      prisma:
+        specifier: ^5.1.1
+        version: 5.1.1
+      tailwindcss:
+        specifier: 3.3.3
+        version: 3.3.3
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
+
   packages/next-app-query:
     dependencies:
       '@apps/api':
@@ -163,6 +266,9 @@ importers:
       react-hook-form:
         specifier: ^7.45.4
         version: 7.45.4(react@18.2.0)
+      superjson:
+        specifier: ^1.13.1
+        version: 1.13.1
       tailwind-merge:
         specifier: ^1.14.0
         version: 1.14.0

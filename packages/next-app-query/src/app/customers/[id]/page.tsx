@@ -4,9 +4,14 @@
 import Link from 'next/link';
 import CustomerForm from './form';
 import { useQuery } from '@tanstack/react-query';
-import { getCustomer } from '@/endpoints/customers';
+import { api } from '@/utils/api/client';
+import type { Customer } from '@/app/api/customers/[id]/route';
 
 type PageProps = { params: { id: string }; searchParams: unknown };
+
+export const getCustomer = async (id: number | string) => {
+  return api.get<Customer>(`/api/customers/${id}`);
+};
 
 export default function CustomerFormPage({ params }: PageProps) {
   const id = Number(params.id);

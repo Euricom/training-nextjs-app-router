@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import NextResponse from '@/server/utils/responses';
+import { json, type InferResponseType } from '@/server/utils/responses';
 import { getSearchParams } from '@/server/utils/params';
 import { prisma } from '@/server/db';
 import { getOrderBy } from '@/server/utils/prisma';
@@ -11,7 +11,7 @@ const GetParamsSchema = z.object({
   sortBy: z.string().optional(),
 });
 
-export const GET = withErrorHandling(async (request: Request) => {
+export const GET = async (request: Request) => {
   const { page = 0, pageSize = 50, sortBy } = getSearchParams(request, GetParamsSchema);
   console.log(`GET /api/customers - page=${page}, pageSize=${pageSize}, sortBy=${sortBy}`);
 
@@ -22,8 +22,10 @@ export const GET = withErrorHandling(async (request: Request) => {
     orderBy: getOrderBy(sortBy || 'lastName'),
   });
 
-  return NextResponse.ok(customers);
-});
+  return json(customers);
+};
+
+export type Customer = InferResponseType<typeof GET>[number];
 
 const customerCreateSchema = z.object({
   firstName: z.string(),
@@ -43,7 +45,5 @@ export const POST = withErrorHandling(async (request: Request) => {
       email: data.email,
     },
   });
-  return NextResponse.ok(customer);
+  return json(customer);
 });
-
-export type { Customer } from '@prisma/client';
