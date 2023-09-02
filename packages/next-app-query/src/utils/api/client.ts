@@ -35,7 +35,10 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 
 /**
  * A better fetch API
- * Add support for superjson parse
+ * - Includes http error handling
+ * - Automatically parse json response
+ * - Automatically stringify json body
+ * - Automatically support for superjson parse
  *
  * Usage:
  * ```

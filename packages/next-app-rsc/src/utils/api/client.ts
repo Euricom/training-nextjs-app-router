@@ -1,21 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getBaseUrl, getFullUrl } from './url';
-
-/**
- * API Client to be used for 3th party API calls.
- * These can be direct of proxy calls
- *
- * This is a simple wrapper around fetch with error handling
- *
- * Usage:
- * ```
- * import { api } from '@/server/api/client';
- *
- * const customers = await api.get('/api/customers');
- * const user = await api.post('/api/user', { name: 'John' });
- * ```
- */
+import superjson from 'superjson';
+import destr from 'destr';
+import { env } from '@/env.mjs';
 
 export class FetchError extends Error {
   constructor(public status: number, public statusText: string, public url?: string) {
@@ -27,12 +14,23 @@ interface Options extends Omit<RequestInit, 'body'> {
   body?: BodyInit | null | undefined | Record<string, unknown>;
 }
 
-function isPlainObject(value: unknown) {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
   return Object.prototype.toString.call(value) === '[object Object]';
 }
 
+const getFullUrl = (path: string, baseUrl?: string) => {
+  if (path.startsWith('http')) return path;
+  if (!baseUrl) return path;
+  const url = new URL(path, baseUrl);
+  return url.href;
+};
+
 /**
- * A better fetch API :)
+ * A better fetch API
+ * - Includes http error handling
+ * - Automatically parse json response
+ * - Automatically stringify json body
+ * - Automatically support for superjson parse
  *
  * Usage:
  * ```
@@ -42,10 +40,11 @@ function isPlainObject(value: unknown) {
  * @param options Fetch options like headers etc
  * @returns
  */
-export function xFetch<TData>(input: RequestInfo, options?: Options): Promise<TData> {
+export async function xFetch<TData>(input: RequestInfo, options?: Options): Promise<TData> {
   let init: any = options;
+
+  // transform body to json if needed
   if (isPlainObject(options?.body)) {
-    // stringify body and set content type to json
     init = {
       ...options,
       body: JSON.stringify(options?.body),
@@ -55,17 +54,28 @@ export function xFetch<TData>(input: RequestInfo, options?: Options): Promise<TD
       },
     };
   }
-  return fetch(input, init).then((res) => {
-    if (!res.ok) {
-      const url = typeof input === 'string' ? input : undefined;
-      throw new FetchError(res.status, res.statusText, url);
+
+  // the actual fetch call
+  const res = await fetch(input, init);
+
+  // handle http errors
+  if (!res.ok) {
+    const url = typeof input === 'string' ? input : undefined;
+    throw new FetchError(res.status, res.statusText, url);
+  }
+
+  // parse the response body when json or superjson
+  const body = await res.text();
+  const contentType = res.headers.get('Content-Type');
+  if (contentType?.includes('application/json')) {
+    if (body.includes('meta')) {
+      return superjson.parse<TData>(body);
     }
-    const contentType = res.headers.get('Content-Type');
-    if (contentType?.includes('application/json')) {
-      return res.json();
-    }
-    return res.text();
-  }) as Promise<TData>;
+    // fast json parse with https://www.npmjs.com/package/destr
+    return destr<TData>(body);
+  }
+
+  return body as TData;
 }
 
 type ApiOptions = {
@@ -75,7 +85,7 @@ type ApiOptions = {
 
 /**
  * Create an api client to be used for API calls.
- * Similar to axios.create()
+ * Similar to axios.create().
  *
  * Usage:
  * ```
@@ -150,7 +160,7 @@ export function create(rootOptions: ApiOptions) {
 }
 
 export const api = create({
-  baseUrl: getBaseUrl(),
+  baseUrl: env.API_SERVER_URL,
 });
 
 export type ApiInstance = ReturnType<typeof create>;

@@ -1,7 +1,14 @@
-import { getEmployees } from '@/endpoints/employees';
+import type { EmployeeDTO } from '@/endpoints/types';
+import { xFetch } from '@/utils/api/client';
+import { env } from '@/env.mjs';
 
 export default async function Home() {
-  const employees = await getEmployees();
+  const data = await xFetch<EmployeeDTO[]>(`${env.API_SERVER_URL}/api/employees`);
+  const employees = data.map((item) => ({
+    ...item,
+    birthDate: new Date(item.birthDate),
+  }));
+
   return (
     <>
       <h1 className="mb-3 text-xl font-bold">Employees</h1>
