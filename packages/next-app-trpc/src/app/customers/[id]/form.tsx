@@ -7,8 +7,8 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { trpc } from '@/utils/trpc/client';
+import { useSession } from 'next-auth/react';
 
 type Props = {
   customer: Customer;
@@ -23,6 +23,10 @@ const customerSchema = z.object({
 type FormValues = z.infer<typeof customerSchema>;
 
 export default function CustomerForm({ customer }: Props) {
+  const { data: session } = useSession();
+
+  console.log('>>> session', session);
+
   const utils = trpc.useContext();
   const router = useRouter();
   const { handleSubmit, register, formState } = useForm<FormValues>({
@@ -34,7 +38,7 @@ export default function CustomerForm({ customer }: Props) {
     onSuccess: async () => {
       await utils.invalidate();
       // go back home
-      router.push('/');
+      router.push('/customers');
     },
   });
 

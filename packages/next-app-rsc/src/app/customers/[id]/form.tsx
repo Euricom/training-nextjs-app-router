@@ -27,7 +27,7 @@ export default function CustomerForm({ customer }: Props) {
     });
     // make sure you clear Server Components client cache to update the list
     router.refresh();
-    revalidatePath('/customers');
+    // revalidatePath('/customers');
     router.push('/customers');
   };
 

@@ -8,13 +8,14 @@
  * need to use are documented accordingly near the end.
  */
 
-import { initTRPC } from '@trpc/server';
+import { TRPCError, initTRPC } from '@trpc/server';
 import { type FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
-// import { type Session } from 'next-auth';\
+import { type Session } from 'next-auth';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
-// import { getServerAuthSession } from '@/server/auth';
+import { getServerAuthSession } from '@/server/auth';
 import { prisma } from '@/server/db';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 /**
  * 1. CONTEXT
@@ -25,7 +26,7 @@ import { prisma } from '@/server/db';
  */
 
 type CreateContextOptions = {
-  // session: Session | null;
+  session: Session | null;
 };
 
 /**
@@ -40,7 +41,7 @@ type CreateContextOptions = {
  */
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
-    // session: opts.session,
+    session: opts.session,
     prisma,
   };
 };
@@ -51,15 +52,15 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
+export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { req } = opts;
 
   // Get the session from the server using the getServerSession wrapper function
-  // const session = await getServerAuthSession({ req, res });
+  const session = await getServerAuthSession();
 
   return createInnerTRPCContext({
-    // session,
+    session,
   });
 };
 
@@ -98,6 +99,23 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  */
 export const createTRPCRouter = t.router;
 
+const errorHandler = t.middleware(async ({ ctx, next }) => {
+  const result = await next();
+  if (!result.ok) {
+    const { cause } = result.error;
+    // transform errors for special cases
+    if (cause instanceof PrismaClientKnownRequestError) {
+      if (cause.code === 'P2025') {
+        result.error = new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'One or more related resources not found',
+        });
+      }
+    }
+  }
+  return result;
+});
+
 /**
  * Public (unauthenticated) procedure
  *
@@ -105,20 +123,20 @@ export const createTRPCRouter = t.router;
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure;
+export const publicProcedure = t.procedure.use(errorHandler);
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
-// const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-//   if (!ctx.session || !ctx.session.user) {
-//     throw new TRPCError({ code: 'UNAUTHORIZED' });
-//   }
-//   return next({
-//     ctx: {
-//       // infers the `session` as non-nullable
-//       session: { ...ctx.session, user: ctx.session.user },
-//     },
-//   });
-// });
+const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
 
 /**
  * Protected (authenticated) procedure
@@ -128,4 +146,4 @@ export const publicProcedure = t.procedure;
  *
  * @see https://trpc.io/docs/procedures
  */
-// export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const protectedProcedure = t.procedure.use(errorHandler).use(enforceUserIsAuthed);

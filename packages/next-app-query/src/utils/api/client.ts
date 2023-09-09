@@ -108,61 +108,44 @@ type ApiOptions = {
  */
 export function create(rootOptions: ApiOptions) {
   return {
-    get<TData>(path: string, options?: RequestInit) {
+    request<TData = unknown>(
+      path: string,
+      method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+      body: BodyInit | null | undefined | Record<string, unknown>,
+      options?: Omit<RequestInit, 'method' | 'body'>
+    ) {
       const url = getFullUrl(path, rootOptions.baseUrl);
-      console.log('GET', url);
+      console.log(method, url);
       return xFetch<TData>(url, {
         ...options,
+        method,
+        body,
         headers: {
           ...rootOptions.headers,
           ...options?.headers,
         },
       });
+    },
+
+    get<TData>(path: string, options?: RequestInit) {
+      return this.request<TData>(path, 'GET', undefined, options);
     },
     put<TData = unknown>(
       path: string,
       body: BodyInit | null | undefined | Record<string, unknown>,
       options?: Omit<RequestInit, 'method' | 'body'>
     ) {
-      const url = getFullUrl(path, rootOptions.baseUrl);
-      console.log('PUT', url);
-      return xFetch<TData>(url, {
-        ...options,
-        method: 'PUT',
-        body,
-        headers: {
-          ...rootOptions.headers,
-          ...options?.headers,
-        },
-      });
+      return this.request<TData>(path, 'PUT', body, options);
     },
     post<TData = unknown>(
       path: string,
       body: BodyInit | null | undefined | Record<string, unknown>,
       options?: Omit<RequestInit, 'method' | 'body'>
     ) {
-      const url = getFullUrl(path, rootOptions.baseUrl);
-      console.log('PUT', url);
-      return xFetch<TData>(url, {
-        ...options,
-        method: 'POST',
-        body,
-        headers: {
-          ...rootOptions.headers,
-          ...options?.headers,
-        },
-      });
+      return this.request<TData>(path, 'POST', body, options);
     },
     delete<TData = unknown>(path: string, options?: Omit<RequestInit, 'method'>) {
-      const url = getFullUrl(path, rootOptions.baseUrl);
-      return xFetch<TData>(url, {
-        ...options,
-        method: 'DELETE',
-        headers: {
-          ...rootOptions.headers,
-          ...options?.headers,
-        },
-      });
+      return this.request<TData>(path, 'DELETE', undefined, options);
     },
   };
 }

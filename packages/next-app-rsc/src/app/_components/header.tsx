@@ -1,3 +1,4 @@
+import AuthPanel from './authPanel';
 import MenuButton from './mobileMenuButton';
 // import Link from 'next/link';
 import NavLink from './navLink';
@@ -17,11 +18,11 @@ export default function Header() {
       {/* sidebar */}
       <div
         id="sidebar"
-        className="absolute inset-y-0 left-0 z-50 w-64 -translate-x-full transform space-y-6 bg-gray-800 px-2 py-7 text-blue-100 transition duration-200 ease-in-out md:relative md:translate-x-0"
+        className="absolute inset-y-0 left-0 z-50 w-72 -translate-x-full transform space-y-6 bg-gray-800 px-2 py-7 text-blue-100 transition duration-200 ease-in-out md:relative md:translate-x-0"
       >
         {/* logo */}
-        <div className="flex flex-col">
-          <a href="#" className="flex items-center space-x-2 px-4 text-white">
+        <div className="flex flex-col px-4">
+          <a href="#" className="flex items-center space-x-2 text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -38,7 +39,8 @@ export default function Header() {
             </svg>
             <span className="text-2xl font-extrabold">Awesome App</span>
           </a>
-          <p className="ml-5">App Router - RSC</p>
+          <p className="ml-1">App Router - RSC</p>
+          <AuthPanel />
         </div>
         {/* nav */}
         <nav>

@@ -41,7 +41,7 @@ export const superjson = <TData extends Record<string, unknown> | Array<unknown>
   return json<TData>(superJSON.stringify(body) as any, statusCode);
 };
 
-export const conflict = (code: string, message: string) => {
+export const conflict = (code: number, message: string) => {
   return NextResponse.json(
     {
       error: 'Conflict',
@@ -90,6 +90,16 @@ export const noContent = () => {
   });
 };
 
+export const unauthorized = (message = 'Missing or invalid session') => {
+  return NextResponse.json<any>(
+    {
+      error: 'Unauthorized',
+      message,
+    },
+    { status: 401 }
+  );
+};
+
 export const badRequest = ({ message, errors }: { message: string; errors?: unknown }) => {
   return NextResponse.json<any>(
     {
@@ -106,6 +116,7 @@ export default {
   superjson,
   internalServerError,
   conflict,
+  unauthorized,
   badGateway,
   notFound,
   noContent,

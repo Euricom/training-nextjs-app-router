@@ -7,6 +7,7 @@
     "roboto",
     "runtimes",
     "tailwindcss",
-    "tanstack"
+    "tanstack",
+    "Trpc"
   ]
 }

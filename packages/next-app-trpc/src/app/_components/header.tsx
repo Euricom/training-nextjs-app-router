@@ -1,3 +1,4 @@
+import AuthPanel from './authPanel';
 import MenuButton from './mobileMenuButton';
 import NavLink from './navLink';
 
@@ -19,8 +20,8 @@ export default function Header() {
         className="absolute inset-y-0 left-0 w-64 -translate-x-full transform space-y-6 bg-gray-800 px-2 py-7 text-blue-100 transition duration-200 ease-in-out md:relative md:translate-x-0"
       >
         {/* logo */}
-        <div className="flex flex-col">
-          <a href="#" className="flex items-center space-x-2 px-4 text-white">
+        <div className="flex flex-col px-4">
+          <a href="#" className="flex items-center space-x-2 text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -37,9 +38,11 @@ export default function Header() {
             </svg>
             <span className="text-2xl font-extrabold">Awesome App</span>
           </a>
-          <p className="ml-5">App Router - tRPC</p>
+          <p className="ml-1">App Router - tRPC</p>
+          <AuthPanel />
         </div>
         {/* nav */}
+
         <nav>
           <NavLink
             href="/"
@@ -48,10 +51,16 @@ export default function Header() {
             Home
           </NavLink>
           <NavLink
+            href="customers"
+            className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
+          >
+            Customers
+          </NavLink>
+          <NavLink
             href="features"
             className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
           >
-            Features
+            Features (protected)
           </NavLink>
           <NavLink
             href="about"
@@ -60,7 +69,7 @@ export default function Header() {
             About
           </NavLink>
           <NavLink
-            href="#"
+            href="other"
             className="block rounded px-4 py-2.5 transition duration-200 hover:bg-blue-700 hover:text-white"
           >
             Other

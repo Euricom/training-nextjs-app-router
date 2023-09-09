@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { prisma } from '@/server/db';
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 export const customerRouter = createTRPCRouter({
@@ -14,6 +15,9 @@ export const customerRouter = createTRPCRouter({
         id: input.id,
       },
     });
+    if (!customers) {
+      throw new TRPCError({ code: 'NOT_FOUND', message: 'Customer not found' });
+    }
     return customers;
   }),
   save: publicProcedure

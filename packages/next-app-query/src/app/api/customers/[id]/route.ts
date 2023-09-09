@@ -1,9 +1,9 @@
-// import type { Customer } from '@prisma/client';
 import { prisma } from '@/server/db';
 import { json, noContent, type InferResponseType } from '@/server/utils/responses';
 import { z } from 'zod';
-import withErrorHandling from '@/server/utils/withErrorHandling';
 import { NotFoundError } from '@/server/utils/errors';
+import { compose } from '@/server/middleware/compose';
+import errorHandler from '@/server/middleware/errorHandler';
 
 type Context = {
   params: {
@@ -11,7 +11,7 @@ type Context = {
   };
 };
 
-export const GET = withErrorHandling(async (_request: Request, { params }: Context) => {
+export const get = async (_request: Request, { params }: Context) => {
   const customer = await prisma.customer.findFirst({
     where: {
       id: Number(params.id),
@@ -21,11 +21,12 @@ export const GET = withErrorHandling(async (_request: Request, { params }: Conte
     throw new NotFoundError(`Customer with id ${params.id} not found`);
   }
   return json(customer);
-});
+};
 
-export type Customer = InferResponseType<typeof GET>;
+export type Customer = InferResponseType<typeof get>;
+export const GET = compose(errorHandler, get);
 
-export const DELETE = withErrorHandling(async (_request: Request, { params }: Context) => {
+export const DELETE = compose(errorHandler, async (_request: Request, { params }: Context) => {
   const customer = await prisma.customer.findFirst({
     where: {
       id: Number(params.id),
@@ -50,7 +51,7 @@ const customerUpdateSchema = z.object({
 
 export type CustomerUpdate = z.infer<typeof customerUpdateSchema>;
 
-export const PUT = withErrorHandling(async (request: Request, { params }: Context) => {
+export const PUT = compose(errorHandler, async (request: Request, { params }: Context) => {
   const body = await request.json();
   const data = customerUpdateSchema.parse(body);
 

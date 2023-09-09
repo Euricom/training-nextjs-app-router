@@ -15,9 +15,17 @@ export class BadRequestError extends Error {
 }
 
 export class ConflictError extends Error {
-  code: string;
-  constructor(code: string, message: string) {
+  code: number;
+  constructor(message: string) {
     super(message);
-    this.code = code;
+    this.code = 409;
+  }
+}
+
+export class UnauthorizedError extends Error {
+  code: number;
+  constructor(message?: string) {
+    super(message);
+    this.code = 401;
   }
 }

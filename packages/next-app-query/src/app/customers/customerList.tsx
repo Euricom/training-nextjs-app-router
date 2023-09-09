@@ -4,19 +4,19 @@ import { api } from '@/utils/api/client';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useState } from 'react';
-import type { Customer } from '../api/customers/route';
+import type { CustomerPayload } from '../api/customers/route';
 
 type CustomerListProps = {
   className?: string;
 };
 
 const getCustomers = async (sortBy: string) => {
-  return api.get<Customer[]>(`/api/customers?sortBy=${sortBy}`);
+  return api.get<CustomerPayload>(`/api/customers?sortBy=${sortBy}`);
 };
 
 export default function CustomerList({ className }: CustomerListProps) {
   const [sortBy, setSortBy] = useState('firstName');
-  const { data } = useQuery(['customers', sortBy], () => getCustomers(sortBy), {
+  const { data: customers } = useQuery(['customers', sortBy], () => getCustomers(sortBy), {
     keepPreviousData: true,
     suspense: true,
   });
@@ -48,7 +48,7 @@ export default function CustomerList({ className }: CustomerListProps) {
           </tr>
         </thead>
         <tbody>
-          {data?.map((item) => (
+          {customers?.items.map((item) => (
             <tr key={item.id}>
               <td className="hidden lg:table-cell">{item.id}</td>
               <td className="hidden lg:table-cell">{item.firstName}</td>

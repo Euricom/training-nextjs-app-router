@@ -12,6 +12,7 @@ export const Providers: React.FC<{ children: React.ReactNode }> = ({ children })
         queries: {
           staleTime: 1000 * 60 * 5,
           refetchOnWindowFocus: false,
+          retry: false,
         },
       },
     });

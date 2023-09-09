@@ -2,6 +2,8 @@ import '@/styles.css';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import { TrpcProvider } from '@/utils/trpc/provider';
+import { SessionProvider } from '@/utils/auth/provider';
+import { getServerAuthSession } from '@/server/auth';
 import Header from './_components/header';
 
 // Automatically self-host Google Font with auto fallback to system fonts
@@ -21,16 +23,19 @@ export const metadata: Metadata = {
 };
 
 // This is the root layout for all pages. It is used by all pages
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerAuthSession();
   return (
     <html lang="en">
       <body className={`font-sans antialiased ${roboto.variable}`} suppressHydrationWarning={true}>
-        <div className="relative min-h-screen md:flex">
-          <Header />
-          <main className="flex-1 p-10">
-            <TrpcProvider>{children}</TrpcProvider>
-          </main>
-        </div>
+        <SessionProvider session={session}>
+          <TrpcProvider>
+            <div className="relative min-h-screen md:flex">
+              <Header />
+              <main className="flex-1 p-10">{children}</main>
+            </div>
+          </TrpcProvider>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -1,4 +1,20 @@
-GET http://localhost:3000/api/customers?sortyBy=firstName
+### 
+# This endpoint is proteced by session cookie
+# Startup with NODE_ENV=test to use test session
+###
+
+### 
+# Get customers with paging
+GET http://localhost:3000/api/customers?page=0&pageSize=10
+
+### 
+# Get customers with paging
+GET http://localhost:3000/api/customers?page=0&pageSize=10
+
+
+### 
+# Get customers sorted
+GET http://localhost:3000/api/customers?sortBy=firstName
 
 ###
 # GET Single Customer

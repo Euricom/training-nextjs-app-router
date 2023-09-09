@@ -10,21 +10,18 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(['development', 'test', 'production']),
     API_SERVER_URL: z.string().url(),
-    // NEXTAUTH_SECRET:
-    //   process.env.NODE_ENV === 'production'
-    //     ? z.string().min(1)
-    //     : z.string().min(1).optional(),
-    // NEXTAUTH_URL: z.preprocess(
-    //   // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
-    //   // Since NextAuth.js automatically uses the VERCEL_URL if present.
-    //   (str) => process.env.VERCEL_URL ?? str,
-    //   // VERCEL_URL doesn't include `https` so it cant be validated as a URL
-    //   process.env.VERCEL ? z.string().min(1) : z.string().url(),
-    // ),
-    // // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
-    // AZURE_AD_CLIENT_ID: z.string(),
-    // AZURE_AD_CLIENT_SECRET: z.string(),
-    // AZURE_AD_TENANT_ID: z.string(),
+    NEXTAUTH_SECRET: process.env.NODE_ENV === 'production' ? z.string().min(1) : z.string().min(1).optional(),
+    NEXTAUTH_URL: z.preprocess(
+      // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
+      // Since NextAuth.js automatically uses the VERCEL_URL if present.
+      (str) => process.env.VERCEL_URL ?? str,
+      // VERCEL_URL doesn't include `https` so it cant be validated as a URL
+      process.env.VERCEL ? z.string().min(1) : z.string().url()
+    ),
+    // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
+    AZURE_AD_CLIENT_ID: z.string(),
+    AZURE_AD_CLIENT_SECRET: z.string(),
+    AZURE_AD_TENANT_ID: z.string(),
   },
 
   /**
@@ -44,11 +41,11 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     API_SERVER_URL: process.env.API_SERVER_URL,
-    // NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-    // NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-    // AZURE_AD_CLIENT_ID: process.env.AZURE_AD_CLIENT_ID,
-    // AZURE_AD_CLIENT_SECRET: process.env.AZURE_AD_CLIENT_SECRET,
-    // AZURE_AD_TENANT_ID: process.env.AZURE_AD_TENANT_ID,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    AZURE_AD_CLIENT_ID: process.env.AZURE_AD_CLIENT_ID,
+    AZURE_AD_CLIENT_SECRET: process.env.AZURE_AD_CLIENT_SECRET,
+    AZURE_AD_TENANT_ID: process.env.AZURE_AD_TENANT_ID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import Header from './_components/header';
 import QueryProvider from '../utils/query/provider';
+import { SessionProvider } from '@/utils/auth/provider';
+import { getServerAuthSession } from '@/server/auth';
 
 // Automatically self-host Google Font with auto fallback to system fonts
 // Fonts are included in the deployment and served from the same domain as your deployment.
@@ -22,7 +24,8 @@ export const metadata: Metadata = {
 };
 
 // This is the root layout for all pages. It is used by all pages
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerAuthSession();
   return (
     <html lang="en">
       <head>
@@ -30,12 +33,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href="/assets/theme.css" />
       </head>
       <body className={`font-sans antialiased ${roboto.variable}`} suppressHydrationWarning={true}>
-        <div className="relative min-h-screen md:flex">
-          <Header />
-          <main className="flex-1 p-10">
-            <QueryProvider>{children}</QueryProvider>
-          </main>
-        </div>
+        <SessionProvider session={session}>
+          <div className="relative min-h-screen md:flex">
+            <Header />
+            <main className="flex-1 p-10">
+              <QueryProvider>{children}</QueryProvider>
+            </main>
+          </div>
+        </SessionProvider>
       </body>
     </html>
   );

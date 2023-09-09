@@ -28,6 +28,7 @@ export default function CustomerForm({ defaultValues, customerId }: FormProps) {
   const { mutate } = useMutation(saveCustomer, {
     onSuccess: async () => {
       await queryClient.invalidateQueries(['customers']);
+      router.refresh();
       router.push('/customers');
     },
   });
@@ -37,8 +38,6 @@ export default function CustomerForm({ defaultValues, customerId }: FormProps) {
       customerId,
       values,
     });
-    router.refresh();
-    router.push('/');
   };
 
   return (
