@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
 import customers from './routes/customers';
 import artists from './routes/artists';
 import employees from './routes/employees';
@@ -7,6 +8,7 @@ import { HTTPException } from 'hono/http-exception';
 import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 
 const app = new Hono()
+  .use('*', logger())
   .use('/api/*', cors())
   .get('/', (c) =>
     c.jsonT({

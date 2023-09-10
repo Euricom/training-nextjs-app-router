@@ -21,7 +21,6 @@ const customerUpdateSchema = z.object({
 const customers = new Hono()
   .get('/', async (ctx) => {
     const { page = 0, pageSize = 50, sortBy = 'lastName' } = getSearchParams(ctx.req, GetParamsSchema);
-    console.log(`GET /customers`);
     console.log(`  page=${page}, pageSize=${pageSize}, sortBy=${sortBy}`);
 
     const customers = await prisma.customer.findMany({
@@ -33,7 +32,6 @@ const customers = new Hono()
   })
   .get('/:id', async (ctx) => {
     const id = Number(ctx.req.param('id'));
-    console.log(`GET /customers/${id}`);
 
     const customer = await prisma.customer.findFirst({
       where: { id },

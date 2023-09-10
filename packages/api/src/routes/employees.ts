@@ -6,14 +6,11 @@ import { Employee } from '@prisma/client';
 
 const artist = new Hono()
   .get('/', async (ctx) => {
-    console.log(`GET /employees`);
     const employees = await prisma.employee.findMany({});
     return ctx.json(employees);
   })
   .get('/:id', async (ctx) => {
     const id = Number(ctx.req.param('id'));
-    console.log(`GET /employees/${id}`);
-
     const entity = await prisma.employee.findFirst({
       where: { id },
     });

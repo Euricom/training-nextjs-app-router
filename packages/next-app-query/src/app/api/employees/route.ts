@@ -1,5 +1,4 @@
 import { env } from '@/env.mjs';
-import { xFetch } from '@/utils/api/client';
 import type { EmployeeDTO } from '@/endpoints/types';
 import { superjson, type InferResponseType } from '@/server/utils/responses';
 import { compose } from '@/server/middleware/compose';
@@ -14,7 +13,7 @@ export const mapEmployee = (employee: EmployeeDTO) => {
 };
 
 const get = async () => {
-  const data = await xFetch<EmployeeDTO[]>(`${env.API_SERVER_URL}/api/employees`);
+  const data: EmployeeDTO[] = await fetch(`${env.API_SERVER_URL}/api/employees`).then((res) => res.json());
   const employees = data.map(mapEmployee);
   return superjson(employees);
 };

@@ -39,7 +39,7 @@ export default function Header() {
             </svg>
             <span className="text-2xl font-extrabold">Awesome App</span>
           </a>
-          <p className="ml-1">App Router - tRPC</p>
+          <p className="ml-1">App Router - Query</p>
           <AuthPanel />
         </div>
         {/* nav */}
