@@ -2,6 +2,7 @@
 import 'server-only';
 import { NextResponse } from 'next/server';
 import superJSON from 'superjson';
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 type ExtractNextResponseType<Type> = Type extends NextResponse<infer X> ? X : never;
 
@@ -41,84 +42,37 @@ export const superjson = <TData extends Record<string, unknown> | Array<unknown>
   return json<TData>(superJSON.stringify(body) as any, statusCode);
 };
 
-export const conflict = (code: number, message: string) => {
-  return NextResponse.json(
-    {
-      error: 'Conflict',
-      code,
-      message,
-    },
-    { status: 409 }
-  );
-};
-
-export const internalServerError = ({ message, details }: { message: string; details?: unknown }) => {
+export const error = (status: number, message: string, details?: unknown) => {
   return NextResponse.json<any>(
     {
-      error: 'InternalServerError',
+      code: getReasonPhrase(status),
       message,
       details,
     },
-    { status: 500 }
-  );
-};
-
-export const badGateway = ({ message, details }: { message: string; details?: unknown }) => {
-  return NextResponse.json<any>(
-    {
-      error: 'BadGateway',
-      message,
-      details,
-    },
-    { status: 502 }
+    { status: status }
   );
 };
 
 export const notFound = (message = 'The resource is not found') => {
   return NextResponse.json<any>(
     {
-      error: 'NotFound',
+      code: getReasonPhrase(StatusCodes.NOT_FOUND),
       message,
     },
-    { status: 404 }
+    { status: StatusCodes.NOT_FOUND }
   );
 };
 
 export const noContent = () => {
   return new NextResponse<any>(null, {
-    status: 204,
+    status: StatusCodes.NO_CONTENT,
   });
-};
-
-export const unauthorized = (message = 'Missing or invalid session') => {
-  return NextResponse.json<any>(
-    {
-      error: 'Unauthorized',
-      message,
-    },
-    { status: 401 }
-  );
-};
-
-export const badRequest = ({ message, errors }: { message: string; errors?: unknown }) => {
-  return NextResponse.json<any>(
-    {
-      error: 'BadRequest',
-      message,
-      errors,
-    },
-    { status: 404 }
-  );
 };
 
 export default {
   json,
   superjson,
-  internalServerError,
-  conflict,
-  unauthorized,
-  badGateway,
+  error,
   notFound,
   noContent,
-  badRequest,
 } as const;

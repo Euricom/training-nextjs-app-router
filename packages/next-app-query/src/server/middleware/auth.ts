@@ -7,9 +7,10 @@ export interface AuthRequestContext {
   session: Session | null;
 }
 
-export const auth = async (request: Request, ctx: AuthRequestContext, next: NextHandler<AuthRequestContext>) => {
-  // when we don't have a session (no or invalid session cookie), we are unauthorized
+export const auth = async (_request: Request, ctx: AuthRequestContext, next: NextHandler<AuthRequestContext>) => {
   const session = await getServerAuthSession();
+
+  // when we don't have a session (no or invalid session cookie), we are unauthorized
   if (!session) {
     throw new UnauthorizedError();
   }

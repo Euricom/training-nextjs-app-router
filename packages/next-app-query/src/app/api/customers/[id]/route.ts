@@ -32,7 +32,9 @@ export const DELETE = compose(errorHandler, async (_request: Request, { params }
       id: Number(params.id),
     },
   });
-  if (!customer) return noContent();
+  if (!customer) {
+    return noContent();
+  }
 
   await prisma.customer.delete({
     where: {

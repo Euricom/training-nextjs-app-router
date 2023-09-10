@@ -64,15 +64,17 @@ export const authOptions: NextAuthOptions = {
  * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
  */
 export const getServerAuthSession = () => {
+  console.log('>>> ', env);
+
   // don't check auth in test environment
-  if (env.NODE_ENV === 'test') {
-    return {
+  if (env.NEXTAUTH_TEST_USER) {
+    return Promise.resolve({
       expires: new Date(9999, 0, 1).toString(),
       user: {
         id: '99999',
-        email: 'test@euri.com',
+        email: env.NEXTAUTH_TEST_USER,
       },
-    };
+    });
   }
 
   return getServerSession(authOptions);

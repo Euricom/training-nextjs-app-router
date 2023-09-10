@@ -1,9 +1,10 @@
 import { FetchError } from '@/utils/api/client';
 import responses from '../utils/responses';
-import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from '../utils/errors';
+import { RequestError } from '../utils/errors';
 import { ZodError } from 'zod';
 import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 import { type NextHandler } from './compose';
+import { StatusCodes } from 'http-status-codes';
 
 export const errorHandler = async (req: Request, ctx: unknown, next: NextHandler) => {
   try {
@@ -11,19 +12,10 @@ export const errorHandler = async (req: Request, ctx: unknown, next: NextHandler
   } catch (error) {
     if (error instanceof FetchError) {
       // fetch errors (coming from 3th party apis) are always bad gateway
-      return responses.badGateway({ message: error.message });
+      return responses.error(StatusCodes.BAD_GATEWAY, error.message);
     }
-    if (error instanceof NotFoundError) {
-      return responses.notFound(error.message);
-    }
-    if (error instanceof UnauthorizedError) {
-      return responses.unauthorized();
-    }
-    if (error instanceof ConflictError) {
-      return responses.conflict(error.code, error.message);
-    }
-    if (error instanceof BadRequestError) {
-      return responses.badRequest({ message: error.message, errors: error.errors });
+    if (error instanceof RequestError) {
+      return responses.error(error.status, error.message);
     }
     if (error instanceof ZodError) {
       // a zod error is always a bad request
@@ -33,24 +25,17 @@ export const errorHandler = async (req: Request, ctx: unknown, next: NextHandler
           message: issue.message,
         };
       });
-      return responses.badRequest({
-        message: 'One or more fields are invalid',
-        errors,
-      });
+      return responses.error(StatusCodes.BAD_REQUEST, 'One or more fields are invalid', errors);
     }
-    if (error instanceof PrismaClientValidationError) {
-      // special case for prisma validation errors
-      return responses.internalServerError({
-        message: error.message,
-        details: error.stack?.replace(error.message, ''), // prisma error messages are duplicated in the stack trace
-      });
-    }
+
     if (error instanceof Error) {
-      // if nothing else just return a 500
-      return responses.internalServerError({
-        message: error.message,
-        details: error.stack,
-      });
+      // all else just return a 500
+      let details = error.stack;
+      if (error instanceof PrismaClientValidationError) {
+        // prisma error messages are duplicated in the stack trace
+        details = error.stack?.replace(error.message, '');
+      }
+      return responses.error(StatusCodes.INTERNAL_SERVER_ERROR, error.message, details);
     }
     throw error;
   }

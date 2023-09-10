@@ -10,6 +10,7 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(['development', 'test', 'production']),
     API_SERVER_URL: z.string().url(),
+    NEXTAUTH_TEST_USER: z.string().email().optional(),
     NEXTAUTH_SECRET: process.env.NODE_ENV === 'production' ? z.string().min(1) : z.string().min(1).optional(),
     NEXTAUTH_URL: z.preprocess(
       // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
@@ -41,6 +42,7 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     API_SERVER_URL: process.env.API_SERVER_URL,
+    NEXTAUTH_TEST_USER: process.env.NEXTAUTH_TEST_USER,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     AZURE_AD_CLIENT_ID: process.env.AZURE_AD_CLIENT_ID,

@@ -1,31 +1,30 @@
 import 'server-only';
+import { StatusCodes } from 'http-status-codes';
 
-export class NotFoundError extends Error {
+export class RequestError extends Error {
+  status: number;
+  details?: unknown;
+  constructor(status: number, message: string, details?: unknown) {
+    super(message);
+    this.status = status;
+    this.details = details;
+  }
+}
+
+export class NotFoundError extends RequestError {
   constructor(message = 'The resource is not found') {
-    super(message);
+    super(StatusCodes.NOT_FOUND, message);
   }
 }
 
-export class BadRequestError extends Error {
-  errors?: unknown;
-  constructor(message: string, errors?: unknown) {
-    super(message);
-    this.errors = errors;
+export class ConflictError extends RequestError {
+  constructor(details: unknown, message = 'A business rule is violated') {
+    super(StatusCodes.CONFLICT, message, details);
   }
 }
 
-export class ConflictError extends Error {
-  code: number;
-  constructor(message: string) {
-    super(message);
-    this.code = 409;
-  }
-}
-
-export class UnauthorizedError extends Error {
-  code: number;
-  constructor(message?: string) {
-    super(message);
-    this.code = 401;
+export class UnauthorizedError extends RequestError {
+  constructor(message = 'Missing or invalid authorization') {
+    super(StatusCodes.UNAUTHORIZED, message);
   }
 }
